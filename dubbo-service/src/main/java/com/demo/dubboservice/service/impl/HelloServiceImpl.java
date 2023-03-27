@@ -1,7 +1,17 @@
 package com.demo.dubboservice.service.impl;
 
 import com.demo.common.HelloService;
+import com.demo.dubboservice.Controller;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.context.WebServerApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -13,8 +23,20 @@ import org.apache.dubbo.config.annotation.Service;
  */
 @Service(registry = "dubboRegistry", timeout = 3000, version = "1.0", retries = 3, loadbalance = "random", actives = 5)
 public class HelloServiceImpl implements HelloService {
+
+    @Resource
+    public WebServerApplicationContext context;
+
     @Override
     public String hello() {
-        return "动物园里有大西几! 小凶许! 小脑斧! 梅发怒!";
+        try {
+            TimeUnit.SECONDS.sleep(Controller.TIMEOUT);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        if (Controller.EXCEPTION) {
+            throw new RuntimeException("服务出现异常！");
+        }
+        return "服务器端口：" + context.getWebServer().getPort() + "提供服务！";
     }
 }

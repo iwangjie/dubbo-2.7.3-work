@@ -1,0 +1,2 @@
+# Load balance strategy, default: random
+xxx=com.opengoofy.dubos.loadblance.XxxLoadBalance

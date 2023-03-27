@@ -33,7 +33,7 @@
 
 		<dependency>
 			<groupId>com.demo</groupId>
-			<artifactId>dubbo-plugin</artifactId>
+			<artifactId>xx-loadblance-plugin</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
     </dependencies>
